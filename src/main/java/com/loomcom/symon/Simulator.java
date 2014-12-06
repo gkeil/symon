@@ -362,12 +362,12 @@ public class Simulator {
             logger.severe("Console type-ahead buffer underrun!");
         }
 
-        if (videoWindow != null && stepsSinceLastCrtcRefresh++ > stepsBetweenCrtcRefreshes) {
+        /*if (videoWindow != null && stepsSinceLastCrtcRefresh++ > stepsBetweenCrtcRefreshes) {
             stepsSinceLastCrtcRefresh = 0;
             if (videoWindow.isVisible()) {
                 videoWindow.repaint();
             }
-        }
+        }*/
 
         // This is a very expensive update, and we're doing it without
         // a delay, so we don't want to overwhelm the Swing event processing thread
