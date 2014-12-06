@@ -32,7 +32,6 @@ import javax.swing.JPanel;
 
 
 
-
 /**
  * This Class represents a line of pixels.
  * The line is represented as a JPanel of 1 pixel height that contains 

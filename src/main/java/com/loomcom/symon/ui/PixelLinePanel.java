@@ -29,7 +29,6 @@ import java.awt.BorderLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
-
 /**
  * This Class represents a panel composed of lines of pixels.
  * This Panel contains all the lines of the screen
