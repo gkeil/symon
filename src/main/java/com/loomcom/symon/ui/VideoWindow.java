@@ -233,24 +233,7 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 			//ScreenRefresh = scheduler.scheduleAtFixedRate(tb, 0, 1000000/HORIZONTAL_FREQ, TimeUnit.MICROSECONDS);
 			ScreenRefresh = scheduler.scheduleAtFixedRate(tb, 0, (long)64, TimeUnit.MICROSECONDS);
 			
-			// TODO Remove later
-			// investigate contents of ROM array
-			int chr = 0x00;
-			int idx = 0;
 			
-			for ( int chline = 0; chline < scanLinesPerRow; chline++) {
-				// get the pixels info to be set on screen
-				int romOffset = (chr & 0xff) * (CHAR_HEIGHT * CHAR_WIDTH) + chline * CHAR_WIDTH;
-	        
-				for (int px = 0; px < CHAR_WIDTH; px++ ) {
-	        	
-					//char cc = ( charRom[romOffset+px] != 0 ) ? 'X' : '.'; 
-					char cc = ( charRom[(chr & 0xff) * (CHAR_HEIGHT * CHAR_WIDTH) + idx++] != 0 ) ? 'X' : '.';
-					System.out.print(cc);
-	        	
-				}
-				System.out.println();
-			}
 			
 			
 			
@@ -276,7 +259,7 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 			@Override
 			public void run() {
 				
-				System.out.println("In  TimeBase.run()start :" + System.nanoTime());
+				
 				// wait for intrinsic lock 
 				synchronized( syncObj ) {
 					updateNow = true;
@@ -299,16 +282,13 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 		 */		
 		private class PixelUpdate extends SwingWorker<Object, Integer> {
 			
-			// Dummy doInBackground for time measuring
-			protected Object doInBackground() throws Exception {
-				return null;
-			}
+			
 			/** 
 			 * doInBackground()
 			 * The update computation is don here. At the end calls publish( Point )
 			 *  			
 			 */
-			/*@Override
+			@Override
 			protected Object doInBackground() throws Exception {
 				
 				// create the working variables before the loop start to minimize overhead
@@ -332,8 +312,7 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 					}	// end synchronized block
 					
 					
-					//System.out.println("In doInBack start :" + System.nanoTime());
-					
+								
 					
 					// 
 					// create the image in the active line
@@ -373,8 +352,7 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 					// notify EDT to update a line
 					publish( new Integer( activeLine) );
 
-					//TODO System.out.println("active=" + activeLine+" charline=" + charLine);
-					
+								
 					// prepare for next update
 					activeLine++;						// point to next line
 					if (activeLine >= lines_per_frame)
@@ -389,14 +367,13 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 					}
 				
 
-					//System.out.println("In doInBack end :" + System.nanoTime());
-				
+						
 				}	// end while(true)
 				
 				
 				
 			}	// end doInBackground
-*/
+
 			/** 
 			 * process()
 			 * This method is called from the EDT
