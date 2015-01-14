@@ -317,6 +317,10 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 					// 
 					// create the image in the active line
 					
+					// TODO remove later
+					TimeTrack.resetEventList();
+					TimeTrack.addEvent("Start task");
+					
 					row = activeLine / scanLinesPerRow;	// get the row we are drawing
 					
 					// TODO Cursor stuff
@@ -327,6 +331,9 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 						// iterate on the columns
 						for ( int col = 0 ; col < horizontalDisplayed; col++) {
 
+							// TODO remove later
+							TimeTrack.addEvent("Start Column");
+							
 							// get the char for this column
 							memOffset = row * horizontalDisplayed + col;						
 							address = crtc.getStartAddress() + memOffset;
@@ -335,12 +342,17 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 							// get the pixels info to be set on screen
 							romOffset = (chr & 0xff) * (CHAR_HEIGHT * CHAR_WIDTH) + charLine * CHAR_WIDTH;
 
+							// TODO Remove later
+							TimeTrack.addEvent("Before loop of pixels");
+							
 							for (int px = 0; px < CHAR_WIDTH; px++ ) {
 
 								screenPane.setPixel( col* CHAR_WIDTH + px,		// x pos
 										activeLine,								// y pos 
 										( charRom[romOffset+px] != 0 )  );		// pixel set or clear
 
+							// TODO Remove later
+							TimeTrack.addEvent( "after setPixels");
 
 							}	// end for px
 
@@ -367,6 +379,8 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 					}
 				
 
+					// TODO remove later
+					TimeTrack.showDeltaTime(1, " Whole loop");
 						
 				}	// end while(true)
 				
@@ -389,9 +403,14 @@ public class VideoWindow extends JFrame implements DeviceChangeListener {
 					// repaint the target line 
 					screenPane.getLinePanel(line).repaint();
 					
+					// TODO remove later
+					TimeTrack.addEvent(" after repaint");
 				}
 								
 				super.process(chunks);
+				
+				// TODO remove later
+				TimeTrack.showEventsInfo();
 			}	// end process
 				
 			
