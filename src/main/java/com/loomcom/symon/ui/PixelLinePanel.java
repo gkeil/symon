@@ -99,8 +99,6 @@ public class PixelLinePanel extends JPanel {
 	 */
 	public void setPixel( int x, int y, boolean value) {
 		
-		// TODO remove later
-		TimeTrack.addEvent(" before update in LinePanel");
 		
 		// Y points to the line object
 		lineArray[ y ].setPixel( x, value);

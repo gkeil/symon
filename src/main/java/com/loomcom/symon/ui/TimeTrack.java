@@ -1,66 +1,111 @@
 package com.loomcom.symon.ui;
 
-import javax.naming.event.EventDirContext;
-
+/**
+ * This class is intended to provide Time tracking tools.
+ * All the members and methods provided are static so that
+ * they can used without the need of creating TimeTracking objects.
+ * Time line is composed of nanoTime values stored in a array of longs
+ * @author GKEIL
+ *
+ */
 public class TimeTrack {
 
-	// this is teh stuf for multiple start time 
-	private static final int MAX_TOPS = 10;
-	private static long st[] = new long[MAX_TOPS];
+	/*
+	 **************************
+	 * TimeTrack class members
+	 **************************/
 	
-	// stuff for storing times for shown later
-	private static final int MAX_TIME_EVENTS = 100;
-	private static long  eventSt;
-	private static int eventIdx;
-	private static long eventDelta[] = new long[MAX_TIME_EVENTS]; 
-	private static String[] eventRefStr = new String[MAX_TIME_EVENTS];
-
+	private static final int MAX_TOPS = 100;			// max independent time lines
+	private static long st[] = new long[MAX_TOPS];		// array of longs that holds the
+	private static String stDesc[] = new String[MAX_TOPS];	// String array to store a description of the moment
+	private static int event = 0;						// position in array to to set next time 
+	
 	
 	/*
-	 * Multiple Start Time methods 
-	 * 
+	 * **************************
+	 * Timetracking provide methods
 	 *******************************/
-	public static void startTime(int top) {
-		
-		if ( top < MAX_TOPS )
-			st[top] = System.nanoTime();
-	}
 	
 	
-	public static void showDeltaTime( int top, String str ) {
-		
-		if ( top < MAX_TOPS )
-			System.out.println( str +" Delta [" + top + "] is " + (System.nanoTime() - st[top]));
-		
-		
-	}
-	
-	/*
-	 * Multiple events stuff
-	 * 
+	/**
+	 * resetTimeline()
+	 * This methods reset TimeTrack variables to start a new time line
 	 */
-	static void resetEventList() {
+	public static void resetTimeLine() {
 		
-		eventSt = System.nanoTime();
-		eventIdx = 0;
-	}
+		event = 0;							// reset event number
 	
-	static void addEvent(String str ) {
+		for ( int i=0; i < MAX_TOPS; i++) {	// clear tops array
+			st[i] = 0;
+			stDesc[i] = "";
+		
+		}	// end for
+		
+	}	// end resetTimeLine
+	
+	/**
+	 * top()
+	 * This methods stores a new time value on the next available position in the array
+	 * Time table is constructed by storing successive time values
+	 */
+	public static void top() {
+	
+		if ( event < MAX_TOPS ) {
+			st[event++] = System.nanoTime();		// store a time value and point to next position
+		}
+		
+	}	// end top
+	
+	/**
+	 * top()
+	 * This methods stores a new time value on the next available position in the array
+	 * Time table is constructed by storing successive time values.
+	 * This version of top also allows to attached a string to the time value, fo tracking purposes
+	 */
+	public static void top( String moment) {
+	
+		if ( event < MAX_TOPS ) {
+			st[event++] = System.nanoTime();		// store a time value and point to next position
+			stDesc[event++] = moment;				// store corresponding moment description
+		}
+		
+	}	// end top
+	
+
+	/**
+	 * getTimeLineLength()
+	 * Returns the number of time values stored in the time line
+	 */
+	
+	public static int getTimeLineLength() {
+		
+		return event;		// the are events time values stored
+		
+	}	// end getTimeLineLength
+	
+	
+	
+	/**
+	 * showTimeTable()
+	 * This method writes the timetable on screen 
+	 */
+	public static void showTimeTable() {
 		
 		
-		if ( eventIdx < MAX_TIME_EVENTS ) {
-			
-			eventDelta[eventIdx]  = System.nanoTime() - eventSt;
-			eventRefStr[eventIdx] = str;
-			eventIdx++;
-		} 
-	}
-	
-	static void showEventsInfo() {
+		// Print Title
+		System.out.format(" Time        |   Event Descrition");
+		System.out.format(" --------------------------------------------------");
 		
-		for ( int i=0; i < eventIdx; i++)
-			System.out.println( eventRefStr[i] + " " + eventDelta[i]);
-	}
+		// print Tie table contents
+		for ( int i=0; i < event; i++) {
+			System.out.format("  %10.10l   |  %s", st[i], stDesc[i]);
+		}
+		
+		
+	}	// end show time table
 	
 	
-}
+	
+	
+		
+}	// end TimeTracking class

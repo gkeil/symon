@@ -111,8 +111,6 @@ public class PixelLine extends JPanel {
 		else
 			lineImg.setRGB(pix, 0, VideoWindow.BACKGROUND_COLOR);
 		
-		// TODO remove later
-		TimeTrack.addEvent(" after update in PixelLine");
 		
 	}	// end etPixel
 	
