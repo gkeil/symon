@@ -65,7 +65,7 @@ public class TimeTrack {
 	public static void top( String moment) {
 	
 		if ( event < MAX_TOPS ) {
-			st[event++] = System.nanoTime();		// store a time value and point to next position
+			st[event] = System.nanoTime();		// store a time value and point to next position
 			stDesc[event++] = moment;				// store corresponding moment description
 		}
 		
@@ -91,14 +91,20 @@ public class TimeTrack {
 	 */
 	public static void showTimeTable() {
 		
+		long delta = 0;
 		
 		// Print Title
-		System.out.format(" Time        |   Event Descrition");
-		System.out.format(" --------------------------------------------------");
+		System.out.format(" Time              | delta       |  Event Descrition%n");
+		System.out.format(" --------------------------------------------------%n");
 		
 		// print Tie table contents
 		for ( int i=0; i < event; i++) {
-			System.out.format("  %10.10l   |  %s", st[i], stDesc[i]);
+			
+			// get diff to previous
+			if ( i != 0 ) 
+				delta = st[i] - st[i-1];
+			
+			System.out.format("  %10d   | %10d  | %s %n", st[i], delta, stDesc[i]);
 		}
 		
 		
